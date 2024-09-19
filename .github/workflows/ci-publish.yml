@@ -1,0 +1,89 @@
+name: Node.js CI/CD
+
+on:
+    push:
+        branches:
+            - main
+        tags:
+            - 'v*'
+        paths-ignore:
+            - '**/*.md'
+    pull_request:
+        branches:
+            - main
+        paths-ignore:
+            - '**/*.md'
+    workflow_dispatch:
+
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [18.x, 20.x, 22.x]
+
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm install
+            - run: npm run build
+            - run: npm test
+
+    publish:
+        needs: build-and-test
+        runs-on: ubuntu-latest
+        if: github.repository_owner == 'mackenly' && github.ref == 'refs/heads/main'
+        permissions:
+            contents: write
+            packages: write
+        steps:
+            - uses: actions/checkout@v4
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20.x'
+                  registry-url: 'https://npm.pkg.github.com'
+                  scope: '@${{ github.repository_owner }}'
+            - run: npm ci
+            - run: npm run build
+            - name: Bump version and tag commit
+              id: versioning
+              uses: phips28/gh-action-bump-version@master
+              with:
+                  tag-prefix: 'v'
+                  patch-wording: 'bump-patch,fixes,Fixes,bugfix,Bugfix,patch,hotfix,Hotfix'
+                  minor-wording: 'bump-minor,adds,Adds,new'
+                  major-wording: 'bump-major,MAJOR,removes,Removes,delete,Delete'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Publish to GitHub Packages
+              run: npm publish --access public
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '20.x'
+                  registry-url: 'https://registry.npmjs.org/'
+                  scope: '@${{ github.repository_owner }}'
+            - name: Configure npm registry
+              run: |
+                  echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" >> ~/.npmrc
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            - name: Publish to npm
+              run: npm publish --access public --tag latest
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            - name: Create GitHub Release
+              uses: ncipollo/release-action@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag: ${{ steps.versioning.outputs.newTag }}
+                  name: ${{ steps.versioning.outputs.newTag }}
+                  generateReleaseNotes: true
+                  draft: false
+                  prerelease: false
