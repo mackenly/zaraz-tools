@@ -39,14 +39,11 @@ pnpm add @mackenly/zaraz-tools
 Currently published on npm and GitHub Packages. If there's another package manager you'd like to see this package on, please let me know by opening an issue.
 
 ## Versioning
-This project uses [Semantic Versioning](https://semver.org/). For the versions available, see the [tags on this repository](https://github.com/mackenly/zaraz-tools/tags). Furthermore, the project is date versioned allowing you to directly import from an older version if you need to while still being able to get the latest version. For example, if you wanted to import the version from 2024-09-19 and the latest, you could do so like this:
+This project uses [Semantic Versioning](https://semver.org/). For the versions available, see the [tags on this repository](https://github.com/mackenly/zaraz-tools/tags).
 
 ```javascript
-import { Foo } from '@mackenly/zaraz-tools/2024-09-19';
-import { Bar } from '@mackenly/zaraz-tools';
+import { Foo } from '@mackenly/zaraz-tools';
 ```
-
-This approach is borrowed from the [@cloudflare/workers-types](https://www.npmjs.com/package/@cloudflare/workers-types) package, but rather than defaulting to the oldest version to ensure compatibility, it defaults to the latest version to ensure you get the latest features and bug fixes. This makes explicit versioning opt-in. You can always fix the version by specifying it in your `package.json`.
 
 ## Mocking / Testing Tools
 ### mockManager
@@ -72,7 +69,7 @@ const event = {
 ## Managed Component Utilities
 ### sha256
 `function sha256( data: string, lowercase: boolean = false): Promise<string>`
-> This function takes a string and returns a promise that resolves to the SHA-256 hash of the string. The second parameter is a boolean that determines if the hash should be returned in lowercase. By default, the hash is returned in uppercase.
+> This function takes a string and returns a promise that resolves to the SHA-256 hash of the string. The second parameter is a boolean that determines if the hash should be lowercased before being hashed. By default, the string is not transformed.
 
 ```javascript
 import { sha256 } from '@mackenly/zaraz-tools';

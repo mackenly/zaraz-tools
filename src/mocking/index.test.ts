@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import * as mocking from './mocking';
+import * as mocking from '.';
 
 describe('mocking', async () => {
     it('should export mockManager', async () => {
