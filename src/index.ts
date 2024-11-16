@@ -1,4 +1,5 @@
+import type { ZarazContext } from "./enrichment";
 import { mockManager, mockEvent } from "./mocking";
 import { sha256 } from "./utils";
 
-export { mockManager, mockEvent, sha256 };
+export { ZarazContext, mockManager, mockEvent, sha256 };
