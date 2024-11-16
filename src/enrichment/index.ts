@@ -51,9 +51,9 @@ interface System {
 }
 
 /**
- * System Config Interface.
+ * Config Object Interface.
  * Contains the consent, dataLayer, debugKey, dlp, historyChange, settings, tools, triggers, variables, and zarazVersion objects.
- * @since 2024-08-30
+ * @since 2024-11-16
  * @version 0.2.0
  * @author mackenly
  * @see https://developers.cloudflare.com/zaraz/reference/context/
