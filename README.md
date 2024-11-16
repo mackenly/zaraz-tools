@@ -83,7 +83,7 @@ console.log(hash); // 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e7304336293
 `interface ZarazContext`
 ```typescript
 // within a context enricher:
-const { system, client } = await request.json() as ZarazContext;
+const { system, client, config } = await request.json() as ZarazContext;
 ```
 
 > Provides a TypeScript type for the Zaraz context object.

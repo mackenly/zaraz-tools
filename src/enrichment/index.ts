@@ -1,7 +1,7 @@
 import { Client } from '@managed-components/types';
 
 /**
- * System Object Type.
+ * System Object Interface.
  * Contains the page, cookies, device, consent, clientKV, and misc objects.
  * @since 2024-08-30
  * @version 0.1.0
@@ -51,8 +51,98 @@ interface System {
 }
 
 /**
- * Zaraz Context Enricher Type.
- * Contains the system and client objects.
+ * System Config Interface.
+ * Contains the consent, dataLayer, debugKey, dlp, historyChange, settings, tools, triggers, variables, and zarazVersion objects.
+ * @since 2024-08-30
+ * @version 0.2.0
+ * @author mackenly
+ * @see https://developers.cloudflare.com/zaraz/reference/context/
+ */
+interface Config {
+    consent: {
+        buttonTextTranslations: {
+            accept_all: Record<string, string>;
+            confirm_my_choices: Record<string, string>;
+            reject_all: Record<string, string>;
+        };
+        companyEmail: string;
+        consentModalIntroHTMLWithTranslations: Record<string, string>;
+        cookieName: string;
+        customCSS: string;
+        customIntroDisclaimerDismissed: boolean;
+        defaultLanguage: string;
+        enabled: boolean;
+        hideModal: boolean;
+        purposesWithTranslations: Record<string, {
+            description: Record<string, string>;
+            name: Record<string, string>;
+            order: number;
+        }>;
+        tcfCompliant: boolean;
+    };
+    dataLayer: boolean;
+    debugKey: string;
+    dlp: any[];
+    historyChange: boolean;
+    settings: {
+        autoInjectScript: boolean;
+        botScoreThreshold: number;
+        contextEnricher: {
+            escapedWorkerName: string;
+            workerTag: string;
+            mutableId: string;
+        };
+        ecommerce: boolean;
+    };
+    tools: Record<string, {
+        actions: Record<string, {
+            actionType: string;
+            blockingTriggers: string[];
+            data: Record<string, any>;
+            firingTriggers: string[];
+            enabled?: boolean;
+        }>;
+        component: string;
+        defaultFields: Record<string, any>;
+        defaultPurpose?: string;
+        enabled: boolean;
+        name: string;
+        permissions: string[];
+        settings: Record<string, any>;
+        type: string;
+        worker?: {
+            accountId: string;
+            escapedWorkerName: string;
+            mutableId: string;
+            workerTag: string;
+        };
+        blockingTriggers?: string[];
+    }>;
+    triggers: Record<string, {
+        description: string;
+        excludeRules: any[];
+        loadRules: Array<{
+            id?: string;
+            match: string;
+            op: string;
+            value: string;
+        }>;
+        name: string;
+        triggerId: string;
+        clientRules?: any[];
+        system?: string;
+    }>;
+    variables: Record<string, {
+        name: string;
+        type: string;
+        value: string;
+    }>;
+    zarazVersion: number;
+}
+
+/**
+ * Zaraz Context Enricher Interface.
+ * Contains the system, client, and config objects.
  * @since 2024-08-30
  * @version 0.1.0
  * @author mackenly
@@ -61,4 +151,5 @@ interface System {
 export interface ZarazContext {
     system: System;
     client: Client;
+    config: Config;
 }
