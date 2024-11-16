@@ -10,7 +10,7 @@ Community toolkit package for working and building with Zaraz
 This toolkit is broken down into several different tools that can be used to work with Zaraz. The tools types are as follows:
 - Mocking / Testing Tools
 - Managed Component Utilities
-- Context Enrichment Tools *soon*
+- Context Enrichment Tools
 - Consent Management Tools *soon*
 - Consent Management React Components Primitives *soon*
 
@@ -79,11 +79,17 @@ console.log(hash); // 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e7304336293
 ```
 
 ## Context Enrichment Tools
-> [!NOTE]  
-> Coming soon!
+### ZarazContext
+`interface ZarazContext`
+```typescript
+// within a context enricher:
+const { system, client } = await request.json() as ZarazContext;
+```
+
+> Provides a TypeScript type for the Zaraz context object.
 
 ## Consent Management Tools
-> [!NOTE]  
+> [!NOTE]
 > Coming soon!
 
 ## Consent Management React Components
