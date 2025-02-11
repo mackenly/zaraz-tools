@@ -15,4 +15,7 @@ describe('Index', async () => {
     it('should export sha256', async () => {
         expect(index).toHaveProperty('sha256');
     });
+    it('should export actionAlreadyFired', async () => {
+        expect(index).toHaveProperty('actionAlreadyFired');
+    });
 });

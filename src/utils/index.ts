@@ -1,3 +1,4 @@
-import { sha256 } from "./hashing";
+import { sha256 } from './hashing';
+import { actionAlreadyFired } from './actionAlreadyFired';
 
-export { sha256 };
+export { sha256, actionAlreadyFired };
