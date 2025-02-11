@@ -67,6 +67,23 @@ const event = {
 ```
 
 ## Managed Component Utilities
+### actionAlreadyFired
+`function actionAlreadyFired( client: Client, actionKey: String, scope: 'page' | 'session' | 'infinite'= 'session', expiry: Date | number | null = null, dontStore: boolean = false): Date | false`
+> This function takes in the client object, an action key, and an optional scope and expiration. It returns either the Date of the last time the action was fired or false to indicate that it hasn't be fired. If the action has not been fired, it will now remember the current Date and return it next time. Optionally, the scope parameter can be set to `session` (default), `page`, or `infinite` to determine how long the action should be remembered using a cookie or local/session storage. Optionally, expiry can be set to a Date or lifetime in milliseconds to determine how long the action should be remembered. Optionally, dontStore can be set to true to prevent the action from being stored in the client. Useful for checking if an action has been fired if you don't intend to fire it.
+
+```javascript
+import { actionAlreadyFired } from '@mackenly/zaraz-tools';
+
+const result = actionAlreadyFired(client, 'hello');
+console.log(result); // timestamp or null
+
+if (actionAlreadyFired(client, 'hello2', 'page', 1000)) {
+    console.log('action already fired');
+} else {
+    console.log('action not yet fired');
+}
+```
+
 ### sha256
 `function sha256( data: string, lowercase: boolean = false): Promise<string>`
 > This function takes a string and returns a promise that resolves to the SHA-256 hash of the string. The second parameter is a boolean that determines if the hash should be lowercased before being hashed. By default, the string is not transformed.
