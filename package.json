@@ -1,6 +1,6 @@
 {
     "name": "@mackenly/zaraz-tools",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "Unofficial 3rd party toolkit for Zaraz",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
